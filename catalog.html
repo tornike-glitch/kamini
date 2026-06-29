@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ge">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GMT კატალოგი | GMT ბიოკამინები</title>
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="მოძებნეთ და შეუკვეთეთ პოლონური GMT ბიოკამინები. ეკოლოგიურად სუფთა, უსაფრთხო ბუხრების დიდი კატალოგი საქართველოში.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- CSS Style Sheets -->
+    <link rel="stylesheet" href="index.css">
+</head>
+<body class="dark-theme catalog-page">
+    <!-- Animated Ember Background Canvas -->
+    <canvas id="sparks-canvas"></canvas>
+
+    <!-- Header Navigation -->
+    <header class="glass-header scrolled" id="main-header">
+        <div class="header-container">
+            <a href="index.html" class="logo" id="site-logo">
+                <span class="logo-accent">GMT</span> BIO
+            </a>
+            
+            <nav class="nav-menu" id="nav-menu">
+                <a href="index.html#hero" class="nav-link" data-i18n="nav-home" id="nav-link-home">მთავარი</a>
+                <a href="index.html#about" class="nav-link" data-i18n="nav-about" id="nav-link-about">როგორ მუშაობს</a>
+                <a href="catalog.html" class="nav-link active" data-i18n="nav-catalog" id="nav-link-catalog">კატალოგი</a>
+                <a href="index.html#faq" class="nav-link" data-i18n="nav-faq" id="nav-link-faq">კითხვები</a>
+                <a href="#inquiry" class="nav-link" data-i18n="nav-inquiry" id="nav-link-inquiry">შეკვეთა</a>
+                <a href="index.html#contact" class="nav-link" data-i18n="nav-contact" id="nav-link-contact">კონტაქტი</a>
+            </nav>
+
+            <div class="header-actions">
+                <!-- Currency Selector -->
+                <div class="currency-selector">
+                    <select id="currency-select" title="Change currency">
+                        <option value="PLN">PLN (zł)</option>
+                        <option value="GEL">GEL (₾)</option>
+                        <option value="EUR">EUR (€)</option>
+                    </select>
+                </div>
+                
+                <!-- Language Selector -->
+                <div class="lang-selector">
+                    <button class="lang-btn" id="lang-en" data-lang="en">EN</button>
+                    <button class="lang-btn active" id="lang-ge" data-lang="ge">GE</button>
+                </div>
+
+                <!-- Inquiry Counter / Cart Icon -->
+                <a href="#inquiry" class="cart-btn" id="cart-btn" title="View inquiry list">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="cart-icon">
+                        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <path d="M16 10a4 4 0 0 1-8 0"></path>
+                    </svg>
+                    <span class="cart-badge" id="cart-count">0</span>
+                </a>
+
+                <!-- Mobile Menu Toggle Button -->
+                <button class="mobile-toggle" id="mobile-toggle" aria-label="Toggle navigation menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Catalog Main Content -->
+    <main style="padding-top: 8rem;">
+        <!-- Product Showcase / Catalog Section -->
+        <section class="catalog-section" id="catalog">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title" data-i18n="catalog-title" id="catalog-title-elem">GMT ბიოკამინების კატალოგი</h2>
+                    <p class="section-subtitle" data-i18n="catalog-subtitle" id="catalog-subtitle-elem">აირჩიეთ კატეგორია და დაათვალიერეთ ჩვენი პროდუქცია. დააჭირეთ პროდუქტს მახასიათებლების სანახავად.</p>
+                </div>
+
+                <!-- Search & Filters Container -->
+                <div class="filter-controls">
+                    <div class="search-box">
+                        <input type="text" id="search-input" placeholder="მოძებნეთ ბიოკამინები..." data-i18n-placeholder="search-placeholder">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="search-icon">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                    </div>
+                    
+                    <div class="filter-tabs" id="filter-tabs">
+                        <button class="filter-tab active" data-filter="all" data-i18n="tab-all" id="filter-tab-all">ყველა</button>
+                        <button class="filter-tab" data-filter="garden" data-i18n="tab-garden" id="filter-tab-garden">ბაღის / გარე</button>
+                        <button class="filter-tab" data-filter="interior" data-i18n="tab-interior" id="filter-tab-interior">ინტერიერის</button>
+                        <button class="filter-tab" data-filter="accessories" data-i18n="tab-accessories" id="filter-tab-accessories">აქსესუარები</button>
+                        <button class="filter-tab" data-filter="biofuel" data-i18n="tab-biofuel" id="filter-tab-biofuel">ბიოსაწვავი</button>
+                    </div>
+                </div>
+
+                <!-- Products Grid -->
+                <div class="products-grid" id="products-grid">
+                    <!-- Products will be generated dynamically by index.js -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Inquiry List Section -->
+        <section class="inquiry-section" id="inquiry" style="padding-top: 4rem;">
+            <div class="container">
+                <div class="inquiry-wrapper">
+                    <!-- Left: Selected List -->
+                    <div class="inquiry-left">
+                        <h2 class="inquiry-heading" data-i18n="inquiry-title" id="inquiry-title-elem">თქვენი შეკვეთის სია</h2>
+                        <p class="inquiry-subheading" data-i18n="inquiry-subtitle" id="inquiry-subtitle-elem">გადახედეთ არჩეულ პროდუქტებს, შეცვალეთ რაოდენობა და მოითხოვეთ პერსონალური შემოთავაზება.</p>
+                        
+                        <div class="inquiry-items-container" id="inquiry-items-container">
+                            <div class="inquiry-empty" id="inquiry-empty-msg">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="empty-icon">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <line x1="8" y1="12" x2="16" y2="12"></line>
+                                </svg>
+                                <p data-i18n="inquiry-empty-text">თქვენი სია ცარიელია. დაამატეთ პროდუქტები ზემოთ მოცემული კატალოგიდან შეკვეთის შესადგენად.</p>
+                            </div>
+                        </div>
+
+                        <!-- Summary footer inside lists -->
+                        <div class="inquiry-summary-footer hidden" id="inquiry-summary-footer">
+                            <span class="summary-total-label" data-i18n="summary-total">ჯამური ღირებულება (საცალო ფასი):</span>
+                            <span class="summary-total-value" id="summary-total-price">0 zł</span>
+                        </div>
+                    </div>
+
+                    <!-- Right: Form -->
+                    <div class="inquiry-right">
+                        <h3 class="inquiry-form-title" data-i18n="form-title" id="form-title-elem">მოითხოვეთ ფასდაკლება</h3>
+                        <form id="inquiry-form" class="inquiry-form">
+                            <div class="form-group">
+                                <label for="form-name" data-i18n="form-name-label">სახელი / კომპანია</label>
+                                <input type="text" id="form-name" required placeholder="გიორგი მაჭარაშვილი">
+                            </div>
+                            <div class="form-group">
+                                <label for="form-email" data-i18n="form-email-label">ელ-ფოსტა</label>
+                                <input type="email" id="form-email" required placeholder="giorgi@example.com">
+                            </div>
+                            <div class="form-group">
+                                <label for="form-phone" data-i18n="form-phone-label">ტელეფონის ნომერი</label>
+                                <input type="tel" id="form-phone" required placeholder="+995 599 00 00 00">
+                            </div>
+                            <div class="form-group">
+                                <label for="form-notes" data-i18n="form-notes-label">დამატებითი შეტყობინება / მოთხოვნები</label>
+                                <textarea id="form-notes" rows="4" placeholder="მაინტერესებს საბითუმო თანამშრომლობა / ადამიანური ფასი..."></textarea>
+                            </div>
+                            <div class="form-note">
+                                <p data-i18n="form-disclosure" id="form-disclosure-elem">* შენიშვნა: მოთხოვნის გაგზავნით გენერირდება ოფიციალური შეკვეთის პროექტი, რომელიც გადაეგზავნება GMT-ის ოფისს.</p>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block" id="submit-inquiry-btn" data-i18n="form-submit">მოთხოვნის გაგზავნა</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-bottom">
+            <p>&copy; 2026 BIOkominki GMT. დამზადებულია პოლონეთში. ყველა უფლება დაცულია.</p>
+            <div class="footer-links">
+                <a href="#catalog">გვერდის თავი</a>
+                <a href="https://biokominkigmt.pl" target="_blank" rel="noopener">biokominkigmt.pl</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Product Details Dialog (Modal) -->
+    <dialog class="detail-modal" id="detail-modal">
+        <div class="modal-content" id="modal-content">
+            <button class="modal-close" id="modal-close" aria-label="Close dialog">&times;</button>
+            <div class="modal-body" id="modal-body">
+                <!-- Content will populate dynamically here -->
+            </div>
+        </div>
+    </dialog>
+
+    <!-- Inquiry Success Dialog -->
+    <dialog class="detail-modal success-modal" id="success-modal">
+        <div class="modal-content">
+            <div class="success-icon-container">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" class="success-icon">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+            </div>
+            <h3 class="success-title" id="success-title-elem" data-i18n="success-title">მოთხოვნის პროექტი შეიქმნა!</h3>
+            <div id="success-body" class="success-body">
+                <!-- Inquiry text summary copyable output will go here -->
+            </div>
+            <div class="success-actions">
+                <button class="btn btn-primary" id="success-close-btn" data-i18n="success-close">დახურვა</button>
+            </div>
+        </div>
+    </dialog>
+
+    <!-- Javascript Sources -->
+    <script src="products.js"></script>
+    <script src="index.js"></script>
+</body>
+</html>

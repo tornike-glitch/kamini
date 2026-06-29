@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><title>GMT Test</title></head>
+<body>
+<h2>Products.js Test</h2>
+<div id="out"></div>
+<script src="products.js"></script>
+<script>
+try {
+  var out = document.getElementById('out');
+  if (typeof PRODUCTS === 'undefined') {
+    out.innerHTML = '<p style="color:red">ERROR: PRODUCTS is not defined!</p>';
+  } else {
+    out.innerHTML = '<p style="color:green">OK: PRODUCTS loaded. Count = ' + PRODUCTS.length + '</p>';
+    var cats = {};
+    PRODUCTS.forEach(function(p) { cats[p.category] = (cats[p.category]||0)+1; });
+    out.innerHTML += '<pre>' + JSON.stringify(cats, null, 2) + '</pre>';
+    // Check first product
+    var p0 = PRODUCTS[0];
+    out.innerHTML += '<p>First product: ' + p0.nameEn + ' | image: ' + p0.image + ' | colorNamesGe: ' + (p0.colorNamesGe||'MISSING') + '</p>';
+  }
+} catch(e) {
+  document.getElementById('out').innerHTML = '<p style="color:red">JS ERROR: ' + e.message + '</p>';
+}
+</script>
+</body>
+</html>
