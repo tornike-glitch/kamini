@@ -257,7 +257,7 @@ const TRANSLATIONS = {
 // Global App State
 const state = {
   lang: "ge",
-  currency: "PLN",
+  currency: "GEL",
   rates: {
     PLN: 1.0,
     GEL: 0.65,
