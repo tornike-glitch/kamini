@@ -441,8 +441,8 @@ section {
     font-family: var(--font-headers);
     font-size: 4rem;
     font-weight: 800;
-    line-height: 1.15;
-    letter-spacing: -0.03em;
+    line-height: 1.35;
+    letter-spacing: normal;
     margin: 1.5rem 0;
     color: var(--text-light);
 }
