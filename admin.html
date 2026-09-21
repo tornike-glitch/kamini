@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GMT Biofireplaces – ადმინ სამართავი პანელი</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Admin CSS -->
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="admin-header">
+        <div class="admin-header-container">
+            <a href="admin.html" class="admin-logo">
+                <span>GMT</span> BIO – სამართავი პანელი
+            </a>
+
+            <div class="cloud-status-badge" id="cloud-status">
+                <span class="status-dot"></span>
+                <span id="cloud-status-text">ღრუბელთან დაკავშირებულია</span>
+            </div>
+
+            <div class="admin-nav-actions">
+                <button class="btn-admin btn-admin-success" id="btn-save-cloud">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+                    ღრუბელში შენახვა
+                </button>
+                <a href="catalog.html" class="btn-admin" target="_blank">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                    საიტის ნახვა
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="admin-main">
+
+        <!-- Summary Dashboard Cards -->
+        <div class="dash-stats-grid">
+            <div class="dash-card">
+                <span class="dash-card-title">სულ პროდუქტები</span>
+                <span class="dash-card-value" id="stat-total">0</span>
+                <span class="dash-card-desc">კატალოგის სრული მოდელები</span>
+            </div>
+            <div class="dash-card">
+                <span class="dash-card-title">ფასით მითითებული</span>
+                <span class="dash-card-value" style="color: #34d399;" id="stat-priced">0</span>
+                <span class="dash-card-desc">საიტზე გამოჩნდება ფასი</span>
+            </div>
+            <div class="dash-card">
+                <span class="dash-card-title">ფასის გარეშე</span>
+                <span class="dash-card-value" style="color: #f87171;" id="stat-unpriced">0</span>
+                <span class="dash-card-desc">გამოჩნდება „ფასი შეთანხმებით“</span>
+            </div>
+            <div class="dash-card">
+                <span class="dash-card-title">ღრუბლის სინქრონიზაცია</span>
+                <span class="dash-card-value" style="color: #60a5fa;" id="stat-cloud">აქტიური</span>
+                <span class="dash-card-desc" id="stat-last-sync">ბოლო განახლება: ახლახანს</span>
+            </div>
+        </div>
+
+        <!-- Filter & Search Controls -->
+        <div class="controls-card">
+            <div class="search-filter-row">
+                <div class="search-box">
+                    <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    <input type="text" id="admin-search" class="search-input" placeholder="ძებნა დასახელებით, კოდით (SKU) ან EAN-ით...">
+                </div>
+
+                <div class="category-filter" id="category-chips">
+                    <button class="cat-chip active" data-cat="all">ყველა</button>
+                    <button class="cat-chip" data-cat="garden">ბაღი & ტერასა</button>
+                    <button class="cat-chip" data-cat="freestanding">თავისუფლად მდგომი</button>
+                    <button class="cat-chip" data-cat="interior">ინტერიერი & კედლის</button>
+                    <button class="cat-chip" data-cat="portal">პორტალური</button>
+                    <button class="cat-chip" data-cat="built-in">ჩაშენებული</button>
+                    <button class="cat-chip" data-cat="accessories">აქსესუარები</button>
+                    <button class="cat-chip" data-cat="biofuel">საწვავი</button>
+                </div>
+            </div>
+
+            <div class="bulk-actions-row">
+                <div class="rate-inputs">
+                    <span>ავტო-კალკულატორი (1 EUR =</span>
+                    <div class="rate-input-item">
+                        <input type="number" step="0.01" id="rate-gel" class="small-input" value="2.95"> GEL
+                    </div>
+                    <span>/ 1 EUR =</span>
+                    <div class="rate-input-item">
+                        <input type="number" step="0.01" id="rate-pln" class="small-input" value="4.30"> PLN)
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 0.5rem;">
+                    <button class="btn-admin" id="btn-export-json">📥 JSON ექსპორტი</button>
+                    <button class="btn-admin" id="btn-import-json">📤 JSON იმპორტი</button>
+                    <input type="file" id="file-import-json" accept=".json" style="display: none;">
+                </div>
+            </div>
+        </div>
+
+        <!-- Products Data Table -->
+        <div class="table-card">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th style="width: 70px;">ფოტო</th>
+                        <th>პროდუქტის დასახელება & კოდი</th>
+                        <th>კატეგორია & ზომები</th>
+                        <th>სტატუსი</th>
+                        <th style="width: 130px;">ფასი GEL (₾)</th>
+                        <th style="width: 130px;">ფასი EUR (€)</th>
+                        <th style="width: 130px;">ფასი PLN (zł)</th>
+                    </tr>
+                </thead>
+                <tbody id="admin-table-body">
+                    <!-- Dynamic Product Rows -->
+                </tbody>
+            </table>
+        </div>
+
+    </main>
+
+    <!-- Toast Notifications Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- Scripts -->
+    <script src="products.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>

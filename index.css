@@ -729,6 +729,17 @@ section {
     text-align: left;
 }
 
+.product-price.price-unassigned {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #fbbf24;
+    background: rgba(251, 191, 36, 0.1);
+    border: 1px solid rgba(251, 191, 36, 0.25);
+    padding: 0.25rem 0.65rem;
+    border-radius: 20px;
+    display: inline-block;
+}
+
 .product-actions {
     display: grid;
     grid-template-columns: 1fr 1fr;

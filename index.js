@@ -503,19 +503,20 @@ function updateUIStrings() {
   }
 }
 
-// Format Price Based on Currency State
-function formatPrice(plnAmount) {
-  const rate = state.rates[state.currency];
-  const converted = plnAmount * rate;
-  const symbol = state.currencySymbols[state.currency];
-  
-  if (state.currency === "PLN") {
-    return `${converted.toFixed(2)} ${symbol}`;
-  } else if (state.currency === "GEL") {
-    return `${converted.toFixed(2)} ${symbol}`;
-  } else {
-    return `${symbol}${converted.toFixed(2)}`;
+// Format Price Based on Cloud Storage & Currency State
+function formatPrice(product) {
+  if (!product) return state.lang === "en" ? "Price on Request" : "ფასი შეთანხმებით";
+  const pData = CloudStorageManager.getPriceForCurrency(product, state.currency);
+  if (pData && pData.amount) {
+    if (state.currency === "PLN") {
+      return `${pData.amount} ${pData.symbol}`;
+    } else if (state.currency === "GEL") {
+      return `${pData.amount} ${pData.symbol}`;
+    } else {
+      return `${pData.symbol}${pData.amount}`;
+    }
   }
+  return state.lang === "en" ? "Price on Request" : "ფასი შეთანხმებით";
 }
 
 // Render Products Catalog Grid
@@ -533,7 +534,7 @@ function renderProducts() {
     if (state.searchQuery) {
       const name = (state.lang === "en" ? prod.nameEn : prod.nameGe).toLowerCase();
       const sku = prod.id.toLowerCase();
-      const ean = prod.ean.toLowerCase();
+      const ean = (prod.ean || '').toLowerCase();
       return name.includes(state.searchQuery) || sku.includes(state.searchQuery) || ean.includes(state.searchQuery);
     }
     
@@ -555,7 +556,8 @@ function renderProducts() {
     
     const name = state.lang === "en" ? prod.nameEn : prod.nameGe;
     const categoryLabel = state.lang === "en" ? prod.category : (prod.category === "garden" ? "ბაღი" : prod.category === "interior" ? "ინტერიერი" : prod.category === "accessories" ? "აქსესუარი" : "საწვავი");
-    const formattedPrice = formatPrice(prod.pricePln);
+    const formattedPrice = formatPrice(prod);
+    const isUnpriced = formattedPrice.includes("შეთანხმებით") || formattedPrice.includes("Request");
     
     // Generate color dot html
     let colorsHtml = "";
@@ -569,7 +571,7 @@ function renderProducts() {
     
     card.innerHTML = `
       <div class="product-img-container">
-        <img src="${prod.image}" alt="${name}" class="product-img" loading="lazy">
+        <img src="${prod.image}" alt="${name}" class="product-img" loading="lazy" onerror="this.src='assets/hero.jpg'">
         <span class="product-category-tag">${categoryLabel}</span>
       </div>
       <div class="product-body">
@@ -580,7 +582,7 @@ function renderProducts() {
         </div>
         ${colorsHtml}
         <div class="product-footer">
-          <span class="product-price">${formattedPrice}</span>
+          <span class="product-price ${isUnpriced ? 'price-unassigned' : ''}">${formattedPrice}</span>
           <div class="product-actions">
             <button class="btn-card btn-details" data-id="${prod.id}">
               ${TRANSLATIONS[state.lang]["details"]}
@@ -606,18 +608,19 @@ function showProductDetails(prod) {
   const modalBody = document.getElementById("modal-body");
   const name = state.lang === "en" ? prod.nameEn : prod.nameGe;
   const description = state.lang === "en" ? prod.descEn : prod.descGe;
-  const formattedPrice = formatPrice(prod.pricePln);
+  const formattedPrice = formatPrice(prod);
+  const isUnpriced = formattedPrice.includes("შეთანხმებით") || formattedPrice.includes("Request");
   
-  const colorsText = state.lang === "en" ? prod.colorNamesEn.join(", ") : prod.colorNamesGe.join(", ");
+  const colorsText = prod.colorNamesGe ? (state.lang === "en" ? prod.colorNamesEn.join(", ") : prod.colorNamesGe.join(", ")) : "";
   
   modalBody.innerHTML = `
     <div class="modal-grid">
       <div class="modal-img-container">
-        <img src="${prod.image}" alt="${name}" class="modal-img">
+        <img src="${prod.image}" alt="${name}" class="modal-img" onerror="this.src='assets/hero.jpg'">
       </div>
       <div>
         <h2 class="modal-title">${name}</h2>
-        <div class="modal-price">${formattedPrice}</div>
+        <div class="modal-price ${isUnpriced ? 'price-unassigned' : ''}">${formattedPrice}</div>
         <p class="modal-desc">${description}</p>
         
         <div class="modal-specs-table">
@@ -627,7 +630,7 @@ function showProductDetails(prod) {
           </div>
           <div class="modal-spec-row">
             <span class="modal-spec-label">${TRANSLATIONS[state.lang]["ean"]}</span>
-            <span class="modal-spec-val">${prod.ean}</span>
+            <span class="modal-spec-val">${prod.ean || 'N/A'}</span>
           </div>
           <div class="modal-spec-row">
             <span class="modal-spec-label">${TRANSLATIONS[state.lang]["dimensions"]}</span>
@@ -635,7 +638,7 @@ function showProductDetails(prod) {
           </div>
           <div class="modal-spec-row">
             <span class="modal-spec-label">${TRANSLATIONS[state.lang]["color"]}</span>
-            <span class="modal-spec-val">${colorsText}</span>
+            <span class="modal-spec-val">${colorsText || 'სტანდარტული'}</span>
           </div>
         </div>
         
